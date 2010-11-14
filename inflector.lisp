@@ -3,9 +3,9 @@
         :cl-ppcre
         :vana-utils)
   (:export :pluralize
-           :plural
+           :plural-of
            :singularize
-           :singular
+           :singular-of
            :irregular?
            :irregular
            :uncountable?
@@ -15,7 +15,7 @@
 
 ;; Adapted *cough*ripped*cough* from rails inflector.rb
 ;;; singular->plurals regular expressions
-(defvar plurals
+(defvar **plurals**
       (reverse (list (list "$" "s")
         (list "s$" "s")
         (list "(ax|test)is$" "\\1es")
@@ -35,7 +35,7 @@
         (list "(quiz)$" "\\1zes"))))
 
 ;;; plurals->singular regular expressions
-(defvar singulars
+(defvar **singulars**
   (reverse (list
     (list "s$" "")
     (list "(n)ews$" "\\1ews")
@@ -63,10 +63,10 @@
     (list "(quiz)zes$" "\\1")
     (list "(database)s$" "\\1"))))
 
-(defvar uncountables
+(defvar **uncountables**
   (list "equipment" "information" "rice" "money" "species" "series" "fish" "sheep" "jeans"))
 
-(defvar irregulars
+(defvar **irregulars**
   (args->alist
    "person" "people"
    "man"    "men"
@@ -75,51 +75,51 @@
    "move"   "moves"
    "cow"    "kine"))
 
-;; Interface for adding new uncountables, querying, etc.
+;; Interface for adding new **uncountables**, querying, etc.
 (defun uncountable (word)
   "Notifies the inflector that a word is uncountable"
-  (setf uncountables (cons word uncountables))) 
+  (setf **uncountables** (cons word **uncountables**))) 
 
 (defun uncountable? (word)
-  (member word uncountables :test #'string-equal))
+  (member word **uncountables** :test #'string-equal))
 
 (defun irregular (singular plural)
   "Adds a irregular single-plural set to the irregular list"
-  (setf irregulars (acons singular plural irregulars)))
+  (setf **irregulars** (acons singular plural **irregulars**)))
 
 (defun irregular? (word)
-  (or (-> word irregulars)
-      (rassoc word irregulars :test #'string-equal)))
+  (or (-> word **irregulars**)
+      (rassoc word **irregulars** :test #'string-equal)))
 
 ;; For a touch of added robustness
 (defun irregular-plural? (word)
-  (rassoc word irregulars :test #'string-equal))
+  (rassoc word **irregulars** :test #'string-equal))
 
 (defun irregular-singular? (word)
-  (-> word irregulars))
+  (-> word **irregulars**))
 
 ;; These two could be combined nicely, I'm sure
 (defun get-irregular-singular (plural)
   (if (irregular-singular? plural)
       plural
-      (car (rassoc plural irregulars :test #'string-equal))))
+      (car (rassoc plural **irregulars** :test #'string-equal))))
 
 (defun get-irregular-plural (singular)
   (if (irregular-plural? singular)
       singular
-      (-> singular irregulars)))
+      (-> singular **irregulars**)))
 
 (defun plural-of (word)
   "Returns the plural of a word if it's singular, or itself if already plural"
   (cond ((uncountable? word) word)
         ((irregular?   word) (get-irregular-plural word))
-        (t (inflector-helper word plurals))))
+        (t (inflector-helper word **plurals**))))
 
 (defun singular-of (word)
   "Returns the singular of a word if it's singular, or itself if already singular"
   (cond ((uncountable? word) word)
         ((irregular?   word) (get-irregular-singular word))
-        (t (inflector-helper word singulars))))
+        (t (inflector-helper word **singulars**))))
 
 (defun pluralize (count word)
   (if (not (= count 1))
