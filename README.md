@@ -8,7 +8,7 @@ This is a support package for the [Vana web framework][1], and is a port of the 
 Installation
 ------------------
 
-(ql:quickload 'vana-inflector)
+    > (ql:quickload 'vana-inflector)
 
 Usage
 -----------
