@@ -59,7 +59,7 @@ Use `uncountable` to add an uncountable:
 TODO
 -------
  * Expand the default lookup lists? Possible (but probably negligible) performance tradeoff for completeness
- * Add methods to transfer between CamelCase, whatJavaScriptDoes, and_this_underscore_style
+ * Add methods to transfer between CamelCase, whatJavaScriptDoes, this_underscore_style, and-lisp-style
 
 License
 ---------------
