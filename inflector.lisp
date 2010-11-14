@@ -60,7 +60,7 @@
     ("((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$" "\\1\\2sis")
     ("([ti])a$" "\\1um")
     ("(n)ews$" "\\1ews")
-    ("s$" ""))
+    ("s$" "")))
 
 (defvar **uncountables**
   (list "equipment" "information" "rice" "money" "species" "series" "fish" "sheep" "jeans"))
