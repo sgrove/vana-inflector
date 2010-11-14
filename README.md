@@ -12,9 +12,20 @@ Installation
 
 Usage
 -----------
-Basic Usage, `plural-of` and `singular-of`:
+Example Usage:
 
     (use-package :vana-inflector)
+    > (let ((dollars 1.7)
+            (users 34)
+            (purchases 1))
+           (format nil "The site has ~D ~A, with a total of ~D ~A and $~D ~A"  
+                   users (pluralize users "user") 
+                   purchases (pluralize purchases "purchase") 
+                   dollars (pluralize dollars "dollar")))
+    "The site has 34 users, with a total of 1 purchase and $1.7 dollars"
+
+Basic Usage, `plural-of` and `singular-of`:
+
     > (plural-of "octopus") 
     "octopi"
     > (plural-of "datum")
@@ -28,11 +39,17 @@ Basic Usage, `plural-of` and `singular-of`:
 
 Basic Usage, `pluralize`:
 
-    (use-package :vana-inflector)
     > (pluralize 2 "octopus")
     "octopi"
     > (pluralize 1 "octopus")
     "octopus"
+
+You can pass in the default plural to be used. If not, the inflector is used to determine the plural.
+
+    > (pluralize 2 "tooth" "teeth")
+    "teeth"
+    > (pluralize 2 "tooth")
+    "tooths"
 
 Use `irregular` to add an irregular:
 

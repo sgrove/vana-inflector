@@ -15,7 +15,7 @@
 
 ;; Adapted *cough*ripped*cough* from rails inflector.rb
 ;;; singular->plurals regular expressions
-(defvar **plurals**
+(setf **plurals**
       (reverse (list (list "$" "s")
         (list "s$" "s")
         (list "(ax|test)is$" "\\1es")
@@ -25,7 +25,7 @@
         (list "(buffal|tomat)o$" "\\1oes")
         (list "([ti])um$" "\\1a")
         (list "sis$" "ses")
-        (list "(?:([^f])fe|([lr])f)$" "\\1\2ves")
+        (list "(?:([^f])fe|([lr])f)$" "\\1\\2ves")
         (list "(hive)$" "\\1s")
         (list "([^aeiouy]|qu)y$" "\\1ies")
         (list "(x|ch|ss|sh)$" "\\1es")
@@ -121,11 +121,6 @@
         ((irregular?   word) (get-irregular-singular word))
         (t (inflector-helper word **singulars**))))
 
-(defun pluralize (count word)
-  (if (not (= count 1))
-      (plural-of word)
-      word))
-
 (defun inflector-helper (word regexes)
   (if (null regexes)
       word
@@ -135,17 +130,8 @@
             string
             (inflector-helper word (rest regexes))))))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+(defun pluralize (count word &optional plural)
+  (if (not (= count 1))
+      (or plural
+          (plural-of word))
+      word))
