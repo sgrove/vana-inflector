@@ -69,11 +69,11 @@
 (defvar irregulars
   (args->alist
    "person" "people"
-   "man" "men"
-   "child" "children"
-   "sex" "sexes"
-   "move" "moves"
-   "cow" "kine"))
+   "man"    "men"
+   "child"  "children"
+   "sex"    "sexes"
+   "move"   "moves"
+   "cow"    "kine"))
 
 ;; Interface for adding new uncountables, querying, etc.
 (defun uncountable (word)
@@ -109,21 +109,43 @@
       singular
       (-> singular irregulars)))
 
-(defun pluralize (word)
+(defun plural-of (word)
   "Returns the plural of a word if it's singular, or itself if already plural"
   (cond ((uncountable? word) word)
         ((irregular?   word) (get-irregular-plural word))
         (t (inflector-helper word plurals))))
 
-(defun singularize (word)
+(defun singular-of (word)
   "Returns the singular of a word if it's singular, or itself if already singular"
   (cond ((uncountable? word) word)
         ((irregular?   word) (get-irregular-singular word))
         (t (inflector-helper word singulars))))
 
+(defun pluralize (count word)
+  (if (not (= count 1))
+      (plural-of word)
+      word))
+
 (defun inflector-helper (word regexes)
-    (multiple-value-bind (string match-found?)
-        (cl-ppcre:regex-replace (first (first regexes)) word (second (first regexes)))
-      (if match-found?
-          string
-          (inflector-helper word (rest regexes)))))
+  (if (null regexes)
+      word
+      (multiple-value-bind (string match-found?)
+          (cl-ppcre:regex-replace (first (first regexes)) word (second (first regexes)))
+        (if match-found?
+            string
+            (inflector-helper word (rest regexes))))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

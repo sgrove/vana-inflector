@@ -5,7 +5,6 @@ A common lisp library to easily pluralize and singularize English words.
 
 This is a support package for the [Vana web framework][1], and is a port of the same from Rails' ActiveSupport module.
 
-
 Installation
 ------------------
 
@@ -13,40 +12,48 @@ Installation
 
 Usage
 -----------
-Basic Usage:
+Basic Usage, `plural-of` and `singular-of`:
 
     (use-package :vana-inflector)
-    > (pluralize "octopus") 
+    > (plural-of "octopus") 
     "octopi"
-    > (pluralize "datum")
+    > (plural-of "datum")
     "data"
-    > (singularize "children")
+    > (singular-of "children")
     "child"
-    > (singularize "cats")
+    > (singular-of "cats")
     "cat"
-    > (singularize "data")
+    > (singular-of "data")
     "datum"
+
+Basic Usage, `pluralize`:
+
+    (use-package :vana-inflector)
+    > (pluralize 2 "octopus")
+    "octopi"
+    > (pluralize 1 "octopus")
+    "octopus"
 
 Use `irregular` to add an irregular:
 
-    > (singularize "feet")
+    > (singular-of "feet")
     "feet"
     > (irregular "foot" "feet")
-    > (singularize "feet")
+    > (singular-of "feet")
     "foot"
-    > (pluralize "foot")
+    > (plural-of "foot")
     "feet"
 
 Use `uncountable` to add an uncountable:
 
-    > (pluralize "advice")
+    > (plural-of "advice")
     "advices"
-    > (singularize "advice")
+    > (singular-of "advice")
     "advice"
-    > (singularize "advices")
+    > (singular-of "advices")
     "advice"
     > (uncountable "advice")
-    > (pluralize "advice")
+    > (plural-of "advice")
     "advice"
 
 TODO
