@@ -14,7 +14,7 @@ Usage
 -----------
 Example Usage:
 
-    (use-package :vana-inflector)
+    > (use-package :vana-inflector)
     > (let ((dollars 1.7)
             (users 34)
             (purchases 1))
