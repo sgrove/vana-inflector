@@ -15,7 +15,7 @@
 
 ;; Adapted *cough*ripped*cough* from rails inflector.rb
 ;;; singular->plurals regular expressions
-(defvar **plurals**
+(defvar *plurals*
   '(("(quiz)$"                   "\\1zes")
     ("^(ox)$"                    "\\1en")
     ("([m|l])ouse$"              "\\1ice")
@@ -29,43 +29,45 @@
     ("(buffal|tomat)o$"          "\\1oes")
     ("(bu)s$"                    "\\1ses")
     ("(alias|status)$"           "\\1es")
-    ("(octop|vir)us$"            "\\1i")
+    ("(octop)us$"                "\\1uses")
+    ("(vir)us$"                  "\\1i")
     ("(ax|test)is$"              "\\1es")
     ("s$"                        "s")
     ("$"                         "s")))
 
 ;;; plurals->singular regular expressions
-(defvar **singulars**
-  '(("(database)s$" "\\1")
-    ("(quiz)zes$" "\\1")
-    ("(matr)ices$" "\\1ix")
-    ("(vert|ind)ices$" "\\1ex")
-    ("^(ox)en" "\\1")
-    ("(alias|status)es$" "\\1")
-    ("(octop|vir)i$" "\\1us")
-    ("(cris|ax|test)es$" "\\1is")
-    ("(shoe)s$" "\\1")
-    ("(o)es$" "\\1")
-    ("(bus)es$" "\\1")
-    ("([m|l])ice$" "\\1ouse")
-    ("(x|ch|ss|sh)es$" "\\1")
-    ("(m)ovies$" "\\1ovie")
-    ("(s)eries$" "\\1eries")
-    ("([^aeiouy]|qu)ies$" "\\1y")
-    ("([lr])ves$" "\\1f")
-    ("(tive)s$" "\\1")
-    ("(hive)s$" "\\1")
-    ("([^f])ves$" "\\1fe")
-    ("(^analy)ses$" "\\1sis")
+(defvar *singulars*
+  '(("(database)s$"        "\\1")
+    ("(quiz)zes$"          "\\1")
+    ("(matr)ices$"         "\\1ix")
+    ("(vert|ind)ices$"     "\\1ex")
+    ("^(ox)en"             "\\1")
+    ("(alias|status)es$"   "\\1")
+    ("(octop)(odes|uses)$" "\\1us")
+    ("(octop|vir)i$"       "\\1us")
+    ("(cris|ax|test)es$"   "\\1is")
+    ("(shoe)s$"            "\\1")
+    ("(o)es$"              "\\1")
+    ("(bus)es$"            "\\1")
+    ("([m|l])ice$"         "\\1ouse")
+    ("(x|ch|ss|sh)es$"     "\\1")
+    ("(m)ovies$"           "\\1ovie")
+    ("(s)eries$"           "\\1eries")
+    ("([^aeiouy]|qu)ies$"  "\\1y")
+    ("([lr])ves$"          "\\1f")
+    ("(tive)s$"            "\\1")
+    ("(hive)s$"            "\\1")
+    ("([^f])ves$"          "\\1fe")
+    ("(^analy)ses$"        "\\1sis")
     ("((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$" "\\1\\2sis")
-    ("([ti])a$" "\\1um")
-    ("(n)ews$" "\\1ews")
+    ("([ti])a$"           "\\1um")
+    ("(n)ews$"            "\\1ews")
     ("s$" "")))
 
-(defvar **uncountables**
+(defvar *uncountables*
   (list "equipment" "information" "rice" "money" "species" "series" "fish" "sheep" "jeans"))
 
-(defvar **irregulars**
+(defvar *irregulars*
   (args->alist
    "person" "people"
    "man"    "men"
@@ -74,61 +76,60 @@
    "move"   "moves"
    "cow"    "kine"))
 
-;; Interface for adding new **uncountables**, querying, etc.
+;; Interface for adding new *uncountables*, querying, etc.
 (defun uncountable (word)
   "Notifies the inflector that a word is uncountable"
-  (setf **uncountables** (cons word **uncountables**))) 
+  (push word *uncountables*))
 
 (defun uncountable? (word)
-  (member word **uncountables** :test #'string-equal))
+  (member word *uncountables* :test #'string-equal))
 
 (defun irregular (singular plural)
   "Adds a irregular single-plural set to the irregular list"
-  (setf **irregulars** (acons singular plural **irregulars**)))
+  (push (cons singular plural) *irregulars*))
 
 (defun irregular? (word)
-  (or (-> word **irregulars**)
-      (rassoc word **irregulars** :test #'string-equal)))
+  (or (-> word *irregulars*)
+      (rassoc word *irregulars* :test #'string-equal)))
 
 ;; For a touch of added robustness
 (defun irregular-plural? (word)
-  (rassoc word **irregulars** :test #'string-equal))
+  (rassoc word *irregulars* :test #'string-equal))
 
 (defun irregular-singular? (word)
-  (-> word **irregulars**))
+  (-> word *irregulars*))
 
 ;; These two could be combined nicely, I'm sure
 (defun get-irregular-singular (plural)
   (if (irregular-singular? plural)
       plural
-      (car (rassoc plural **irregulars** :test #'string-equal))))
+      (car (rassoc plural *irregulars* :test #'string-equal))))
 
 (defun get-irregular-plural (singular)
   (if (irregular-plural? singular)
       singular
-      (-> singular **irregulars**)))
+      (-> singular *irregulars*)))
 
 (defun plural (rule replacement)
   "Adds a plural rule, where RULE can be either a string or a regex, and REPLACEMENT can contain capture references defined in RULE"
-  (setf **plurals** (cons (list rule replacement)
-                          **plurals**)))
+  (push (list rule replacement) *plurals*))
+
 
 (defun plural-of (word)
   "Returns the plural of a word if it's singular, or itself if already plural"
   (cond ((uncountable? word) word)
         ((irregular?   word) (get-irregular-plural word))
-        (t (inflector-helper word **plurals**))))
+        (t (inflector-helper word *plurals*))))
 
 (defun singular (rule replacement)
   "Adds a singular rule, where RULE can be either a string or a regex, and REPLACEMENT can contain capture references defined in RULE"
-  (setf **singulars** (cons (list rule replacement)
-                            **singulars**)))
+  (push (list rule replacement) *singulars*))
 
 (defun singular-of (word)
   "Returns the singular of a word if it's singular, or itself if already singular"
   (cond ((uncountable? word) word)
         ((irregular?   word) (get-irregular-singular word))
-        (t (inflector-helper word **singulars**))))
+        (t (inflector-helper word *singulars*))))
 
 (defun inflector-helper (word regexes)
   (if (null regexes)
