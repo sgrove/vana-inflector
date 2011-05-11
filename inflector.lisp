@@ -92,16 +92,16 @@
   "Adds a irregular single-plural set to the irregular list"
   (push (cons singular plural) *irregulars*))
 
-(defun irregular? (word)
-  (or (-> word *irregulars*)
-      (rassoc word *irregulars* :test #'string-equal)))
-
 ;; For a touch of added robustness
 (defun irregular-plural? (word)
   (rassoc word *irregulars* :test #'string-equal))
 
 (defun irregular-singular? (word)
   (-> word *irregulars*))
+
+(defun irregular? (word)
+  (or (irregular-singular? word)
+      (irregular-plural? word)))
 
 ;; These two could be combined nicely, I'm sure
 (defun get-irregular-singular (plural)
