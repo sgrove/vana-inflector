@@ -10,14 +10,20 @@
 
 ;; I like pretty function names :P
 (defmacro defalias (old new)
+  "
+   TODO: unused"
   `(defun ,new (&rest args)
      (apply #',old args)))
 
+;; seems unused
 (defalias zerop zero?)
 
 ;; Convenience function
 (defun list->string (list &optional separator)
-  "A bit of a hacky way to turn a list into a string via reduce"
+  "A bit of a hacky way to turn a list into a string via reduce
+
+   TODO: unused
+  "
   (if list
       (reduce #'(lambda (str1 str2) (concatenate 'string str1 str2 separator)) list)
       ""))
