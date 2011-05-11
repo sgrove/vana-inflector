@@ -6,7 +6,7 @@
 (in-package :vana-inflector-test)
 
 (define-test test-plural-of-regular
-  (loop for word in (list "quiz" "buzz" "fez" "whiz" "wiz")
+  (loop for word in (list "quiz" "buzz" "fez" "whiz" "wiz" "wolf" "wife")
 	do (assert-equal (singular-of (plural-of word)) word))
   (assert-equal "oxen" (plural-of "ox"))
   (assert-equal "matrices" (plural-of "matrix"))
@@ -14,7 +14,9 @@
   (assert-equal "indices" (plural-of "index"))
   (assert-equal "hives" (plural-of "hive"))
   (assert-equal "tomatoes" (plural-of "tomato"))
-  (assert-equal "crises" (plural-of "crisis")))
+  (assert-equal "crises" (plural-of "crisis"))
+  (assert-equal "wolves" (plural-of "wolf"))
+  (assert-equal "wives" (plural-of "wife")))
 
 (define-test test-plural-of-irregular
   (assert-equal "people" (plural-of "person"))
@@ -23,9 +25,10 @@
   )
 
 (define-test test-add-irregular
-  (assert-equal "blurbles" (plural-of "blurble"))
-  (irregular "blurble" "blurblix")
-  (assert-equal "blurblix" (plural-of "blurble")))
+  (let ((vana-inflector::*irregulars* vana-inflector::*irregulars*))
+    (assert-equal "blurbles" (plural-of "blurble"))
+    (irregular "blurble" "blurblix")
+    (assert-equal "blurblix" (plural-of "blurble"))))
 
 (define-test test-uncountable
   (assert-equal "fish" (plural-of "fish"))
@@ -34,9 +37,10 @@
   (assert-equal "sheep" (singular-of "sheep")))
 
 (define-test test-add-uncountable
-  (assert-equal "cackles" (plural-of "cackle"))
-  (uncountable "cackle")
-  (assert-equal "cackle" (plural-of "cackle")))
+  (let ((vana-inflector::*uncountables* vana-inflector::*uncountables*))
+    (assert-equal "cackles" (plural-of "cackle"))
+    (uncountable "cackle")
+    (assert-equal "cackle" (plural-of "cackle"))))
 
 (define-test test-singular-of
   (assert-equal "cup" (singular-of "cups"))
