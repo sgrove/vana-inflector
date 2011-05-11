@@ -83,7 +83,7 @@
 ;; Interface for adding new *uncountables*, querying, etc.
 (defun uncountable (word)
   "Notifies the inflector that a word is uncountable"
-  (push word *uncountables*))
+  (pushnew word *uncountables* :test #'string-equal))
 
 (defun uncountable? (word)
   (member word *uncountables* :test #'string-equal))
