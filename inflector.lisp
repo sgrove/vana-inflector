@@ -15,12 +15,12 @@
 
 ;; Adapted *cough*ripped*cough* from rails inflector.rb
 ;;; singular->plurals regular expressions
-(defvar *plurals*
+(defparameter *plurals*
   '(("(quiz)$"                   "\\1zes")
     ("^(ox)$"                    "\\1en")
     ("([m|l])ouse$"              "\\1ice")
     ("(matr|vert|ind)(?:ix|ex)$" "\\1ices")
-    ("(x|ch|ss|sh)$"             "\\1es")
+    ("(z|x|ch|ss|sh)$"             "\\1es")
     ("([^aeiouy]|qu)y$"          "\\1ies")
     ("(hive)$"                   "\\1s")
     ("(?:([^f])fe|([lr])f)$"     "\\1\\2ves")
@@ -36,7 +36,7 @@
     ("$"                         "s")))
 
 ;;; plurals->singular regular expressions
-(defvar *singulars*
+(defparameter *singulars*
   '(("(database)s$"        "\\1")
     ("(quiz)zes$"          "\\1")
     ("(matr)ices$"         "\\1ix")
@@ -50,7 +50,7 @@
     ("(o)es$"              "\\1")
     ("(bus)es$"            "\\1")
     ("([m|l])ice$"         "\\1ouse")
-    ("(x|ch|ss|sh)es$"     "\\1")
+    ("(z|x|ch|ss|sh)es$"     "\\1")
     ("(m)ovies$"           "\\1ovie")
     ("(s)eries$"           "\\1eries")
     ("([^aeiouy]|qu)ies$"  "\\1y")
@@ -64,11 +64,11 @@
     ("(n)ews$"            "\\1ews")
     ("s$" "")))
 
-(defvar *uncountables*
+(defparameter *uncountables*
   (list "equipment" "information" "rice" "money" "species" "series" "fish"
 	"sheep" "jeans" "news" ))
 
-(defvar *irregulars*
+(defparameter *irregulars*
   (args->alist
    "is"     "are"
    "person" "people"
