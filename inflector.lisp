@@ -65,16 +65,19 @@
     ("s$" "")))
 
 (defvar *uncountables*
-  (list "equipment" "information" "rice" "money" "species" "series" "fish" "sheep" "jeans"))
+  (list "equipment" "information" "rice" "money" "species" "series" "fish"
+	"sheep" "jeans" "news" ))
 
 (defvar *irregulars*
   (args->alist
+   "is"     "are"
    "person" "people"
    "man"    "men"
+   "woman"  "women"
    "child"  "children"
-   "sex"    "sexes"
    "move"   "moves"
-   "cow"    "kine"))
+   "movie"  "movies"
+   ))
 
 ;; Interface for adding new *uncountables*, querying, etc.
 (defun uncountable (word)
