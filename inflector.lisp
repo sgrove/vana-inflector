@@ -1,15 +1,15 @@
 (defpackage :vana-inflector
-  (:use :cl
-        :cl-ppcre
-        :vana-utils)
+    (:use :cl
+	  :cl-ppcre
+	  :vana-utils)
   (:export :pluralize
-           :plural-of
-           :singularize
-           :singular-of
-           :irregular?
-           :irregular
-           :uncountable?
-           :uncountable))
+	   :plural-of
+	   :singularize
+	   :singular-of
+	   :irregular?
+	   :irregular
+	   :uncountable?
+	   :uncountable))
 
 (in-package :vana-inflector)
 
