@@ -22,7 +22,7 @@
 (defun list->string (list &optional separator)
   "A bit of a hacky way to turn a list into a string via reduce
 
-   TODO: unused
+   TODO: unused - also seems incorrect (sep should be between the strs)
   "
   (if list
       (reduce #'(lambda (str1 str2) (concatenate 'string str1 str2 separator)) list)
