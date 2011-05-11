@@ -22,7 +22,10 @@
   :components ((:module :tests
 			:serial t
 			:components ((:file "inflector"))))
-  :depends-on (:vana-inflector))
+  :depends-on (:vana-inflector :lisp-unit))
+
+(defmethod asdf:perform ((o asdf:test-op) (c (eql (find-system :vana-inflector))))
+  (asdf:oos 'asdf:load-op :vana-inflector-test))
 
 ;; Copyright (c) 2010 Sean Grove, http://trapm.com/
 

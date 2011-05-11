@@ -6,7 +6,8 @@
 (in-package :vana-inflector-test)
 
 (define-test test-plural-of-regular
-  (assert-equal "quizzes" (plural-of "quiz"))
+  (loop for word in (list "quiz" "buzz" "fez" "whiz" "wiz")
+	do (assert-equal (singular-of (plural-of word)) word))
   (assert-equal "oxen" (plural-of "ox"))
   (assert-equal "matrices" (plural-of "matrix"))
   (assert-equal "vertices" (plural-of "vertex"))
@@ -19,12 +20,12 @@
   (assert-equal "people" (plural-of "person"))
   (assert-equal "men" (plural-of "man"))
   (assert-equal "sexes" (plural-of "sex"))
-  (assert-equal "kine" (plural-of "cow")))
+  )
 
 (define-test test-add-irregular
-  (assert-equal "womans" (plural-of "woman"))
-  (irregular "woman" "women")
-  (assert-equal "women" (plural-of "woman")))
+  (assert-equal "blurbles" (plural-of "blurble"))
+  (irregular "blurble" "blurblix")
+  (assert-equal "blurblix" (plural-of "blurble")))
 
 (define-test test-uncountable
   (assert-equal "fish" (plural-of "fish"))

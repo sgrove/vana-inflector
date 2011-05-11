@@ -16,7 +16,7 @@
 ;; Adapted *cough*ripped*cough* from rails inflector.rb
 ;;; singular->plurals regular expressions
 (defparameter *plurals*
-  '(("(quiz)$"                   "\\1zes")
+  '(("(.*[aeiou])z$"             "\\1zzes")
     ("^(ox)$"                    "\\1en")
     ("([m|l])ouse$"              "\\1ice")
     ("(matr|vert|ind)(?:ix|ex)$" "\\1ices")
@@ -38,7 +38,7 @@
 ;;; plurals->singular regular expressions
 (defparameter *singulars*
   '(("(database)s$"        "\\1")
-    ("(quiz)zes$"          "\\1")
+    ("(.*[aeiou]z)zes$"    "\\1")
     ("(matr)ices$"         "\\1ix")
     ("(vert|ind)ices$"     "\\1ex")
     ("^(ox)en"             "\\1")
@@ -77,6 +77,7 @@
    "child"  "children"
    "move"   "moves"
    "movie"  "movies"
+   "buzz"   "buzzes"
    ))
 
 ;; Interface for adding new *uncountables*, querying, etc.
