@@ -121,6 +121,10 @@
 
 (defun plural-of (word)
   "Returns the plural of a word if it's singular, or itself if already plural"
+  (setf word
+	(typecase word
+	  (string word)
+	  (T (princ-to-string word))))
   (cond ((uncountable? word) word)
         ((irregular?   word) (get-irregular-plural word))
         (t (inflector-helper word *plurals*))))
@@ -131,6 +135,10 @@
 
 (defun singular-of (word)
   "Returns the singular of a word if it's singular, or itself if already singular"
+  (setf word
+	(typecase word
+	  (string word)
+	  (T (princ-to-string word))))
   (cond ((uncountable? word) word)
         ((irregular?   word) (get-irregular-singular word))
         (t (inflector-helper word *singulars*))))
