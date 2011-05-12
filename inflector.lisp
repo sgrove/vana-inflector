@@ -139,7 +139,11 @@
   (if (null regexes)
       word
       (multiple-value-bind (string match-found?)
-          (cl-ppcre:regex-replace (first (first regexes)) word (second (first regexes)))
+          (cl-ppcre:regex-replace
+	   (cl-ppcre:create-scanner
+	    (first (first regexes))
+	    :case-insensitive-mode T)
+	   word (second (first regexes)))
         (if match-found?
             string
             (inflector-helper word (rest regexes))))))
