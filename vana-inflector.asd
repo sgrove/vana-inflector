@@ -9,7 +9,7 @@
 
 (defsystem :vana-inflector
   :description "Functions to pluralize and singularize english languages words"
-  :licence "LGPL"
+  :licence "MIT"
   :version "0.1"
   :components ((:file "utils")
 	       (:file "inflector"))
@@ -17,7 +17,7 @@
 
 (defsystem :vana-inflector-test
   :description "Functions to pluralize and singularize english languages words"
-  :licence "LGPL"
+  :licence "MIT"
   :version "0.1"
   :components ((:module :tests
 			:serial t
